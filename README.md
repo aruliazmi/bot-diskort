@@ -1,0 +1,126 @@
+# 🤖 Araz BOT - SAMP BOT
+
+Araz BOT adalah bot Discord multifungsi untuk menangani sistem **SAMP** dan **SERVER DISCORD** Agar Lebih Efisien.
+
+---
+
+## ✨ Fitur Utama
+
+### 🛠️ Sistem UCP
+- Registrasi Ucp.
+- verifikasi otp whatsapp.
+- validasi umur discord.
+
+### 🛠️ Status Server
+- Pemantauan Status server SAMP
+- Otomatis kirim ke channel yang di setting ketika memulai bot
+- delay update setiap 10 detik
+- jika restart/mematikan bot otomatis menghapus chat status sebelumnya dan mengirim ulang chat status baru
+
+### 🎟️ Ticket System
+- Slash command `/ticket` untuk membuat tombol pembuatan tiket.
+- Otomatis membuat channel baru untuk setiap user.
+- Tombol `🔒 Close Ticket` untuk menutup dan mengarsipkan.
+- Proteksi agar satu user hanya bisa punya satu ticket aktif.
+
+### 💸 Sistem Topup Produk
+- Langkah bertahap: Pilih kategori → Pilih produk → Buat QR → Cek status pembayaran.
+- Integrasi Tripay (sandbox/production).
+- Mendukung pengiriman item ke karakter SA-MP dari database MySQL (kendaraan / skin).
+- Pilihan karakter jika user punya lebih dari 1.
+- Tombol batalkan pembayaran.
+
+---
+
+## 🛠️ Instalasi
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/aruliazmi/bot-diskort
+cd bot-diskort
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Buat File `.env`
+
+```env
+DISCORD_TOKEN=
+CLIENT_ID=
+GUILD_ID=
+OWNER_ID=
+
+TOPUP_CHANNEL=
+REGIST_CHANNEL=
+REGISTER_LOG_CHANNEL=
+TICKET_COMMAND_CHANNEL=
+TICKET_ROLE_ID=
+TICKET_CATEGORY_ID=
+TICKET_ARCHIVE_CATEGORY_ID=
+
+SAMP_HOST=
+SAMP_PORT=
+STATUS_CHANNEL_ID=
+
+DB_HOST=
+DB_NAME=
+DB_USER=
+DB_PASS=
+
+FONNTE_TOKEN=
+TRIPAY_MERCHANT_CODE=
+TRIPAY_API_KEY=
+TRIPAY_PRIVATE_KEY=
+```
+
+### 4. Jalankan Bot
+
+```bash
+npx nodemon
+```
+
+---
+
+## 🗃️ Struktur File
+
+```
+├── commands/
+│   └── ticket/
+│   └── donate/
+│   └── status/
+│   └── ucp/
+│
+├── data/
+│   └── produk.json         # Data produk kategori kendaraan & skin
+│
+│
+├── index.js                # Entry point bot
+├── db.js                   # mengatur database
+├── deploy-commands.js      # untuk update jika ada penambahan/penghapusan slash command
+├── package.json
+├── nodemon.json
+├── .env                    # Variabel lingkungan (jangan dishare)
+├── .gitignore
+└── README.md
+```
+
+## ⚙️ Tripay Testing
+
+Gunakan `https://tripay.co.id/api-sandbox/` saat testing dan pastikan status pembayaran `PAID` akan memicu pemberian item.
+
+---
+
+## 👨‍💻 Developer
+
+Made with ❤️ by [@AruliAzmi](https://github.com/aruliazmi)
+
+---
+
+## 📄 Lisensi
+
+MIT License
