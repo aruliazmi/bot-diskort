@@ -7,6 +7,9 @@ const {
   ButtonStyle
 } = require('discord.js');
 
+const axios = require('axios');
+const qs = require('qs');
+
 module.exports = {
   async handleInteraction(interaction) {
     if (!interaction.isButton()) return;
@@ -67,6 +70,35 @@ module.exports = {
       );
 
       await ticketChannel.send({ content: `🎟️ Ticket dibuat oleh ${user}`, components: [row] });
+
+      const ownerPhone = process.env.OWNER_PHONE;
+      const message = `🔔 *Ticket baru Dibuat!*\n\nUser: ${user.tag} (${user.id})\nChannel: #${ticketChannel.name}`;
+
+      try {
+        await axios.post(
+          'https://api.fonnte.com/send',
+          qs.stringify({
+            target: ownerPhone,
+            message
+          }),
+          {
+            headers: {
+              Authorization: process.env.FONNTE_TOKEN,
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          }
+        );
+      } catch (err) {
+        console.error('❌ Gagal kirim notifikasi Fonnte:', err.response?.data || err.message);
+      }
+
+        const NOTIF_CHANNEL_ID = process.env.TICKET_NOTIFY_CHANNEL;
+        const notifChannel = guild.channels.cache.get(NOTIF_CHANNEL_ID);
+        if (notifChannel) {
+          notifChannel.send({
+            content: `📨 Ticket baru dari <@${user.id}> telah dibuat di ${ticketChannel}\n\nhandle it immediately <@&${TICKET_ROLE_ID}>`
+          }).catch(console.error);
+        }
 
       if (!interaction.replied && !interaction.deferred) {
         return interaction.reply({
