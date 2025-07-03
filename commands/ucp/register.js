@@ -89,7 +89,7 @@ module.exports = {
       const fonnteStatus = fonnteRes?.data?.status === true
 
       if (!fonnteStatus) {
-        await newUser.destroy() // rollback data
+        await newUser.destroy()
         return interaction.editReply({
           content: '[\x1b[31mERROR\x1b[0m] Gagal mengirim OTP. Coba lagi nanti.'
         })

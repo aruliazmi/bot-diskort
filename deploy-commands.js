@@ -8,7 +8,11 @@ const commands = [
 
   new SlashCommandBuilder()
     .setName('topup')
-    .setDescription('topup menu')
+    .setDescription('topup menu'),
+
+  new SlashCommandBuilder()
+    .setName('ticket')
+    .setDescription('ticket menu')
 ].map(cmd => cmd.toJSON())
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);

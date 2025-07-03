@@ -14,7 +14,7 @@ const { PlayerUCP } = require('../../db');
 module.exports = {
   async handleInteraction(interaction) {
     try {
-      // Saat tombol verifikasi diklik
+
       if (interaction.isButton() && interaction.customId === 'verify_otp') {
         const userData = await PlayerUCP.findOne({
           where: { DiscordID: interaction.user.id }
@@ -50,8 +50,7 @@ module.exports = {
         modal.addComponents(new ActionRowBuilder().addComponents(otpInput));
         return await interaction.showModal(modal);
       }
-
-      // Saat modal OTP dikirim
+      
       if (interaction.type === InteractionType.ModalSubmit && interaction.customId === 'form_verifikasi') {
         const otpInput = interaction.fields.getTextInputValue('otp_code').trim();
 
@@ -79,14 +78,12 @@ module.exports = {
 
         await match.update({ verified: true });
 
-        // Tombol yang menandakan sudah terverifikasi (disabled)
         const updatedButton = new ButtonBuilder()
           .setCustomId('verify_otp')
           .setLabel('Sudah Terverifikasi')
           .setStyle(ButtonStyle.Secondary)
           .setDisabled(true);
 
-        // Tombol lanjut ke set password
         const setPasswordButton = new ButtonBuilder()
           .setCustomId('set_password')
           .setLabel('Buat Password')
