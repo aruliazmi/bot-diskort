@@ -5,7 +5,6 @@ const { Client, Collection, GatewayIntentBits } = require('discord.js')
 const commandsPath = path.join(__dirname, 'commands')
 const commandFolders = fs.readdirSync(commandsPath)
 const { startStatusUpdater } = require('./commands/status/updateEmbed');
-const ticketHandler = require('./commands/ticket/ticketHandler');
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds]
@@ -48,7 +47,6 @@ client.on('interactionCreate', async interaction => {
       })
     }
   }
-  await ticketHandler.handleInteraction(interaction);
 
   for (const handler of client.handlers) {
   try {
