@@ -143,7 +143,8 @@ module.exports = {
         const data = res.data?.data;
         if (data.status === 'PAID') {
           const selected = data.order_items[0].sku;
-          const isKendaraan = ['451', '411', '487'].includes(selected);
+            const produkKendaraan = require('../../data/produk.json').kategori_kendaraan.map(p => p.value);
+            const isKendaraan = produkKendaraan.includes(selected);
           const db = await mysql.createConnection({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
