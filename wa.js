@@ -44,7 +44,9 @@ async function startWA() {
 
     if (connection === 'open') {
       console.log('✅ WA Connected!');
-      sendWaNotif('6285823852031@s.whatsapp.net', '🤖 Bot Discord berhasil terhubung ke WhatsApp!');
+      const ownerPhone = process.env.OWNER_PHONE;
+      const message = `BOT ONLINE BOS!`;
+      await sendWaNotif (`${ownerPhone}@s.whatsapp.net`, message);
     }
   });
 
