@@ -64,7 +64,9 @@ client.on('interactionCreate', async interaction => {
 
 client.once('ready', async () => {
   console.log(`[\x1b[36mONLINE\x1b[0m] Bot ready as ${client.user.tag}`)
-  
+
+  global.discordClient = client;
+
   try {
     await startWA()
   } catch (err) {
@@ -72,6 +74,6 @@ client.once('ready', async () => {
   }
 
   startStatusUpdater(client, process.env.STATUS_CHANNEL_ID)
-})
+});
 
 client.login(process.env.TOKEN)
