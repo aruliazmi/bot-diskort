@@ -19,14 +19,14 @@ module.exports = {
 
     if (!/^[a-zA-Z0-9]{5,}$/.test(nama)) {
       return interaction.reply({
-        content: '[\x1b[31mERROR\x1b[0m] Username harus alfanumerik dan minimal 5 karakter.',
+        content: '❌ Username harus alfanumerik dan minimal 5 karakter.',
         flags: MessageFlags.Ephemeral
       })
     }
 
     if (!telepon.startsWith('62')) {
       return interaction.reply({
-        content: '[\x1b[31mERROR\x1b[0m] Nomor telepon harus diawali dengan 62.',
+        content: '❌ Nomor telepon harus diawali dengan 62.',
         flags: MessageFlags.Ephemeral
       })
     }
@@ -34,7 +34,7 @@ module.exports = {
     const ageMs = Date.now() - interaction.user.createdAt.getTime()
     if (ageMs / (1000 * 60 * 60 * 24) < 7) {
       return interaction.reply({
-        content: '[\x1b[31mERROR\x1b[0m] Akun Discord harus minimal 7 hari.',
+        content: '❌ Akun Discord harus minimal 7 hari.',
         flags: MessageFlags.Ephemeral
       })
     }
@@ -54,8 +54,8 @@ module.exports = {
     if (existing) {
       return interaction.editReply({
         content: existing.verified
-          ? '[\x1b[32mSUCCESS\x1b[0m] Kamu sudah terverifikasi sebelumnya.'
-          : '[\x1b[31mERROR\x1b[0m] Data sudah digunakan. Gunakan yang lain.'
+          ? '✅ Kamu sudah terverifikasi sebelumnya.'
+          : '❌ Data sudah digunakan. Gunakan yang lain.'
       })
     }
 
@@ -71,8 +71,25 @@ module.exports = {
         reg_date: new Date()
       })
 
-      const message= `Hai ${nama}! Kode OTP kamu adalah: ${otp}, jangan bagikan kode ini ke siapapun.`;
-      await sendWaNotif(`${telepon}@s.whatsapp.net`, message);
+      const numberJid = `${telepon}@s.whatsapp.net`;
+      const pesan = `Hai ${nama}! Kode OTP kamu adalah: ${otp}, jangan bagikan kode ini ke siapapun.`;
+
+      try {
+        const sent = await sendWaNotif(numberJid, pesan);
+
+        if (!sent) {
+          await newUser.destroy();
+          return interaction.editReply({
+            content: '❌ Gagal mengirim OTP. Coba lagi nanti.'
+          });
+        }
+      } catch (err) {
+        console.error('❌ Gagal kirim OTP WA:', err);
+        await newUser.destroy();
+        return interaction.editReply({
+          content: '❌ Gagal mengirim OTP. Coba lagi nanti.'
+        });
+      }
 
       const verifyButton = new ButtonBuilder()
         .setCustomId('verify_otp')
@@ -82,13 +99,13 @@ module.exports = {
       const verifyRow = new ActionRowBuilder().addComponents(verifyButton)
 
       return interaction.editReply({
-        content: `[\x1b[32mSUCCESS\x1b[0m] OTP telah dikirim ke WhatsApp **${telepon}**\nKlik tombol di bawah untuk memverifikasi.`,
+        content: `✅ OTP telah dikirim ke WhatsApp **${telepon}**\nKlik tombol di bawah untuk memverifikasi.`,
         components: [verifyRow]
       })
     } catch (err) {
-      console.error('[\x1b[31mERROR\x1b[0m] Error saat proses OTP:', err.response?.data || err.message)
+      console.error('❌ Error saat proses OTP:', err.response?.data || err.message)
       return interaction.editReply({
-        content: '[\x1b[31mERROR\x1b[0m] Terjadi error saat pengiriman OTP. Coba lagi nanti atau hubungi admin.'
+        content: '❌ Terjadi error saat pengiriman OTP. Coba lagi nanti atau hubungi admin.'
       })
     }
   }

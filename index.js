@@ -15,11 +15,9 @@ const client = new Client({
 client.commands = new Collection()
 client.handlers = []
 
-// === Load Antiraid ===
 const antiraid = require('./commands/antiraid/antiraid')
 antiraid.execute(client)
 
-// === Load Commands & Handlers ===
 for (const folder of commandFolders) {
   const folderPath = path.join(commandsPath, folder)
   const commandFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'))
@@ -40,7 +38,6 @@ for (const folder of commandFolders) {
   }
 }
 
-// === Handle Slash Command & Interaction ===
 client.on('interactionCreate', async interaction => {
   if (interaction.isChatInputCommand()) {
     const command = client.commands.get(interaction.commandName)
@@ -65,7 +62,6 @@ client.on('interactionCreate', async interaction => {
   }
 })
 
-// === Bot Ready Event ===
 client.once('ready', async () => {
   console.log(`[\x1b[36mONLINE\x1b[0m] Bot ready as ${client.user.tag}`)
   
@@ -78,5 +74,4 @@ client.once('ready', async () => {
   startStatusUpdater(client, process.env.STATUS_CHANNEL_ID)
 })
 
-// === Start Discord Bot ===
 client.login(process.env.TOKEN)

@@ -1,5 +1,5 @@
 const pino = require('pino');
 const logger = pino({
-  level: 'silent' // atau 'info', 'debug'
+  level: 'silent'
 });
 module.exports = logger;
