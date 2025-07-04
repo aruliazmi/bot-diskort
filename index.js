@@ -13,6 +13,9 @@ const client = new Client({
 client.commands = new Collection()
 client.handlers = []
 
+const antiraid = require('./commands/antiraid/antiraid')
+antiraid.execute(client)
+
 for (const folder of commandFolders) {
   const folderPath = path.join(commandsPath, folder)
   const commandFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'))
