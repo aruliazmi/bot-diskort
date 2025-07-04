@@ -22,6 +22,7 @@ Araz BOT adalah bot Discord multifungsi untuk menangani sistem **SAMP** dan **SE
 - Otomatis membuat channel baru untuk setiap user.
 - Tombol `🔒 Close Ticket` untuk menutup dan mengarsipkan.
 - Proteksi agar satu user hanya bisa punya satu ticket aktif.
+- notifikasi ke channel admin dan ke whatsapp ketika ada yang membuat ticket.
 
 ### 💸 Sistem Topup Produk
 - Langkah bertahap: Pilih kategori → Pilih produk → Buat QR → Cek status pembayaran.
