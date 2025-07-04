@@ -12,6 +12,7 @@ const axios = require('axios');
 const crypto = require('crypto');
 const mysql = require('mysql2/promise');
 const produkData = require('../../data/produk.json');
+const sendWaNotif = require('../../wa');
 
 const merchant_code = process.env.TRIPAY_MERCHANT_CODE;
 const api_key = process.env.TRIPAY_API_KEY;
