@@ -68,7 +68,7 @@ client.on('interactionCreate', async interaction => {
 // === Bot Ready Event ===
 client.once('ready', async () => {
   console.log(`[\x1b[36mONLINE\x1b[0m] Bot ready as ${client.user.tag}`)
-
+  
   try {
     await startWA()
   } catch (err) {

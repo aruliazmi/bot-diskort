@@ -2,6 +2,7 @@ const { AuditLogEvent, PermissionFlagsBits } = require('discord.js');
 
 const originalGuildData = {};
 const allowedRoleIds = [process.env.DEV_ROLE_ID];
+const { sendWaNotif } = require('../../wa');
 
 module.exports = {
   name: 'ready',
@@ -108,6 +109,9 @@ module.exports = {
 
         await member.kick('[ANTI-RAID] Mengubah channel tanpa izin');
         console.log(`[ANTIRAID] ${executor.tag} telah di-kick karena Mencoba Melakukan RAID!`);
+        const ownerPhone = process.env.OWNER_PHONE;
+        const message = `⚠️ *[ANTIRAID]*\n\nUser ${executor.tag}  Mencoba Merubah Server Tanpa Izin!`;
+        await sendWaNotif(`${ownerPhone}@s.whatsapp.net`, message);
       } catch (e) {
         console.error('[ANTIRAID] Error rollback channel update:', e);
       }

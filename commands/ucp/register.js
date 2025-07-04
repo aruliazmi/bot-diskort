@@ -8,8 +8,7 @@ const {
 
 const { PlayerUCP } = require('../../db')
 const { Op } = require('sequelize')
-const axios = require('axios')
-const qs = require('qs')
+const { sendWaNotif } = require('../../wa');
 
 module.exports = {
   async handleInteraction(interaction) {
@@ -72,28 +71,8 @@ module.exports = {
         reg_date: new Date()
       })
 
-      const fonnteRes = await axios.post(
-        'https://api.fonnte.com/send',
-        qs.stringify({
-          target: telepon,
-          message: `Hai ${nama}! Kode OTP kamu adalah: ${otp}, jangan bagikan ke siapapun.`
-        }),
-        {
-          headers: {
-            Authorization: process.env.FONNTE_TOKEN,
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
-        }
-      )
-
-      const fonnteStatus = fonnteRes?.data?.status === true
-
-      if (!fonnteStatus) {
-        await newUser.destroy()
-        return interaction.editReply({
-          content: '[\x1b[31mERROR\x1b[0m] Gagal mengirim OTP. Coba lagi nanti.'
-        })
-      }
+      const message= `Hai ${nama}! Kode OTP kamu adalah: ${otp}, jangan bagikan kode ini ke siapapun.`;
+      await sendWaNotif(`${telepon}@s.whatsapp.net`, message);
 
       const verifyButton = new ButtonBuilder()
         .setCustomId('verify_otp')

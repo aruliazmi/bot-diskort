@@ -44,7 +44,6 @@ async function startWA() {
 
     if (connection === 'open') {
       console.log('✅ WA Connected!');
-      // Kirim notifikasi hanya setelah koneksi sukses
       sendWaNotif('6285823852031@s.whatsapp.net', '🤖 Bot Discord berhasil terhubung ke WhatsApp!');
     }
   });
@@ -67,4 +66,4 @@ function sendWaNotif(jid, message) {
   }
 }
 
-module.exports = { startWA };
+module.exports = { startWA, sendWaNotif };
