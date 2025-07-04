@@ -6,6 +6,12 @@ Araz BOT adalah bot Discord multifungsi untuk menangani sistem **SAMP** dan **SE
 
 ## ✨ Fitur Utama
 
+### 🛠️ Anti RAID Sistem.
+- Mencegah RAID Discord dengan hanya mengijinkan owner atau role tertentu yang bisa melakukan perubahan pada discord server.
+- otomatis melakukan kick ketika ada yang melakukan perubahan tidak dikenal
+- mengembalikan nama server, nama channel, foto server ke semula jika di rubah tanpa ijin.
+
+
 ### 🛠️ Sistem UCP
 - Registrasi Ucp.
 - verifikasi otp whatsapp.
