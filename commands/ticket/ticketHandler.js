@@ -96,7 +96,7 @@ module.exports = {
         const notifChannel = guild.channels.cache.get(NOTIF_CHANNEL_ID);
         if (notifChannel) {
           notifChannel.send({
-            content: `📨 Ticket baru dari <@${user.id}> telah dibuat di ${ticketChannel}\n\nhandle it immediately <@&${TICKET_ROLE_ID}>`
+            content: `📨 Ticket baru telah dibuat di ${ticketChannel}\n\nhandle it immediately <@&${TICKET_ROLE_ID}>`
           }).catch(console.error);
         }
 

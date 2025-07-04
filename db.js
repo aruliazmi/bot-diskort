@@ -47,10 +47,10 @@ const PlayerUCP = sequelize.define('playerucp', {
 (async () => {
   try {
     await sequelize.authenticate();
-    console.log('[\x1b[32mLOAD\x1b[0m] Database berhasil terkoneksi.');
+    console.log('[\x1b[34mDB\x1b[0m] ✅ Database berhasil terkoneksi.');
     await sequelize.sync();
   } catch (error) {
-    console.error('[\x1b[31mERROR\x1b[0m] Gagal koneksi ke database:', error.message);
+    console.error('[\x1b[31mDB ERROR\x1b[0m] ❌ Gagal koneksi ke database:', error.message);
   }
 })();
 
