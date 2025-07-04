@@ -4,7 +4,9 @@ const path = require('path')
 const { Client, Collection, GatewayIntentBits } = require('discord.js')
 const commandsPath = path.join(__dirname, 'commands')
 const commandFolders = fs.readdirSync(commandsPath)
-const { startStatusUpdater } = require('./commands/status/updateEmbed');
+
+const { startWA, sendWaNotif } = require('./wa')
+const { startStatusUpdater } = require('./commands/status/updateEmbed')
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds]
@@ -13,9 +15,11 @@ const client = new Client({
 client.commands = new Collection()
 client.handlers = []
 
+// === Load Antiraid ===
 const antiraid = require('./commands/antiraid/antiraid')
 antiraid.execute(client)
 
+// === Load Commands & Handlers ===
 for (const folder of commandFolders) {
   const folderPath = path.join(commandsPath, folder)
   const commandFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'))
@@ -36,6 +40,7 @@ for (const folder of commandFolders) {
   }
 }
 
+// === Handle Slash Command & Interaction ===
 client.on('interactionCreate', async interaction => {
   if (interaction.isChatInputCommand()) {
     const command = client.commands.get(interaction.commandName)
@@ -45,24 +50,33 @@ client.on('interactionCreate', async interaction => {
     } catch (err) {
       console.error(err)
       await interaction.reply({
-        content: '[\x1b[31mERROR\x1b[0m] Terjadi kesalahan saat menjalankan command.',
+        content: '[❌] Terjadi kesalahan saat menjalankan command.',
         ephemeral: true
       })
     }
   }
 
   for (const handler of client.handlers) {
-  try {
+    try {
       await handler.handleInteraction(interaction)
     } catch (err) {
-      console.error('[\x1b[31mERROR\x1b[0m] Interaction handler error:', err)
+      console.error('[❌] Interaction handler error:', err)
     }
   }
 })
 
-client.once('ready', () => {
+// === Bot Ready Event ===
+client.once('ready', async () => {
   console.log(`[\x1b[36mONLINE\x1b[0m] Bot ready as ${client.user.tag}`)
-  startStatusUpdater(client, process.env.STATUS_CHANNEL_ID);
-});
 
+  try {
+    await startWA()
+  } catch (err) {
+    console.error('WA Error:', err)
+  }
+
+  startStatusUpdater(client, process.env.STATUS_CHANNEL_ID)
+})
+
+// === Start Discord Bot ===
 client.login(process.env.TOKEN)
