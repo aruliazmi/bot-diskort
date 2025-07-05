@@ -91,22 +91,18 @@ module.exports = {
           });
         }
 
+        const guild = interaction.guild;
+        const member = await guild.members.fetch(interaction.user.id);
         const salt = generateSalt();
         const hashed = hashPassword(plainPassword, salt);
+        const role = guild.roles.cache.get(process.env.UCP_ROLE_ID);
 
         await userData.update({ password: hashed, salt });
-
+        await member.roles.add(role);
         await interaction.reply({
           content: '✅ Password berhasil disimpan, Anda Berhasil melakukan Registrasi!',
           flags: MessageFlags.Ephemeral
         });
-
-        const ucpRoleId = process.env.UCP_ROLE_ID;
-        const member = await interaction.guild.members.fetch(interaction.user.id).catch(() => null);
-
-        if (member && ucpRoleId && !member.roles.cache.has(ucpRoleId)) {
-          await member.roles.add(ucpRoleId).catch(console.error);
-        }
 
         const logChannelId = process.env.REGISTER_LOG_CHANNEL;
         const logChannel = interaction.client.channels.cache.get(logChannelId);
