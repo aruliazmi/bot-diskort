@@ -15,8 +15,10 @@ Araz BOT adalah bot Discord multifungsi untuk menangani sistem **SAMP** dan **SE
 
 ### 🛠️ Sistem UCP
 - Registrasi Ucp.
+- Reffund Role
 - verifikasi otp whatsapp.
 - validasi umur discord.
+- announce tag evryone dari whatsapp mengunakan cmd `!pengumuman` dan dikirim ke channel discord
 
 ### 🛠️ Status Server
 - Pemantauan Status server SAMP
@@ -58,32 +60,53 @@ npm install
 ### 3. Buat File `.env`
 
 ```env
+# ======================================
+
 DISCORD_TOKEN=
 CLIENT_ID=
 GUILD_ID=
 OWNER_ID=
+DEV_ROLE_ID=
+OWNER_PHONE=
+RAID_NOTIFY_CHANNEL=
+
+# ======================================
 
 TOPUP_CHANNEL=
 REGIST_CHANNEL=
 REGISTER_LOG_CHANNEL=
+
+# ======================================
+
 TICKET_COMMAND_CHANNEL=
 TICKET_ROLE_ID=
 TICKET_CATEGORY_ID=
 TICKET_ARCHIVE_CATEGORY_ID=
+TICKET_NOTIFY_CHANNEL=
+
+# ======================================
 
 SAMP_HOST=
 SAMP_PORT=
 STATUS_CHANNEL_ID=
+
+# ======================================
 
 DB_HOST=
 DB_NAME=
 DB_USER=
 DB_PASS=
 
-FONNTE_TOKEN=
+# ======================================
+
 TRIPAY_MERCHANT_CODE=
 TRIPAY_API_KEY=
 TRIPAY_PRIVATE_KEY=
+
+# ======================================
+
+ANNOUNCE_CHANNEL_ID=
+UCP_ROLE_ID=
 ```
 
 ### 4. Jalankan Bot
