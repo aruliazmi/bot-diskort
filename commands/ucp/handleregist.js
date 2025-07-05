@@ -61,7 +61,13 @@ module.exports = {
         .setCustomId("button-reffrole")
         .setLabel("Refund Role")
         .setStyle(ButtonStyle.Secondary)
-        .setEmoji("♻️")
+        .setEmoji("♻️"),
+
+       new ButtonBuilder()
+        .setCustomId("button-resetpw")
+        .setLabel("Reset Password")
+        .setStyle(ButtonStyle.Secondary)
+        .setEmoji("📲")
   );
 
     return interaction.reply({

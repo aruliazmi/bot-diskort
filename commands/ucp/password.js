@@ -101,6 +101,13 @@ module.exports = {
           flags: MessageFlags.Ephemeral
         });
 
+        const ucpRoleId = process.env.UCP_ROLE_ID;
+        const member = await interaction.guild.members.fetch(interaction.user.id).catch(() => null);
+
+        if (member && ucpRoleId && !member.roles.cache.has(ucpRoleId)) {
+          await member.roles.add(ucpRoleId).catch(console.error);
+        }
+
         const logChannelId = process.env.REGISTER_LOG_CHANNEL;
         const logChannel = interaction.client.channels.cache.get(logChannelId);
 
