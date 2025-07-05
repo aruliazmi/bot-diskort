@@ -42,8 +42,10 @@ module.exports = {
       .setThumbnail('https://media.discordapp.net/attachments/1387382523918815263/1389936744824307853/pp-aesthetic-anime.jpg')
       .setColor('#FF0000')
       .setDescription(
-        "Channel ini merupakan tempat dimana kamu dapat mengatur akun UCP kamu sendiri. Terdapat beberapa hal yang harus kamu ketahui:\n\n" +
-        ":receipt: __Register__\n> Tombol untuk membuat akun UCP.\n\n"
+        "Channel ini merupakan tempat di mana kamu dapat mengatur akun UCP kamu sendiri. Berikut ini adalah fungsi dari setiap tombol yang tersedia:\n\n" +
+        "📃 __Register__\n> Membuat akun UCP baru dan mengirim OTP ke WhatsApp kamu untuk verifikasi.\n\n" +
+        "♻️ __Refund Role__\n> Jika kamu sudah terverifikasi sebelumnya lalu keluar discord, gunakan tombol ini untuk mengembalikan role dan ucp.\n\n" +
+        "📲 __Reset Password__ *\n> Jika kamu ingin mengganti password, sistem akan mengirim OTP baru ke WhatsApp kamu."
       )
       .setFooter({ text: "Aruli Azmi" })
       .setTimestamp();
@@ -53,8 +55,14 @@ module.exports = {
         .setCustomId("open_modal")
         .setLabel("Register")
         .setStyle(ButtonStyle.Primary)
-        .setEmoji("📃")
-    );
+        .setEmoji("📃"),
+
+      new ButtonBuilder()
+        .setCustomId("button-reffrole")
+        .setLabel("Refund Role")
+        .setStyle(ButtonStyle.Secondary)
+        .setEmoji("♻️")
+  );
 
     return interaction.reply({
       embeds: [msgEmbed],

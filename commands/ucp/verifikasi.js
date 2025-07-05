@@ -99,6 +99,42 @@ module.exports = {
         });
       }
 
+      if (interaction.isButton() && interaction.customId === 'button-reffrole') {
+        const data = await PlayerUCP.findOne({ where: { DiscordID: interaction.user.id } });
+
+        if (!data || !data.verified) {
+          return interaction.reply({
+            content: '❌ Data kamu belum terverifikasi atau belum terdaftar.',
+            flags: MessageFlags.Ephemeral
+          });
+        }
+
+          const guild = interaction.guild;
+          const member = await guild.members.fetch(interaction.user.id);
+
+          const role = guild.roles.cache.get(process.env.UCP_ROLE_ID);
+          if (!role) {
+            return interaction.reply({
+              content: '❌ Role tidak ditemukan. Hubungi admin.',
+              flags: MessageFlags.Ephemeral
+            });
+          }
+
+          try {
+            await member.roles.add(role);
+            return interaction.reply({
+              content: `✅ Role **${role.name}** dan UCP **${data.ucp}** berhasil dikembalikan, Selamat Datang Kembali.`,
+              flags: MessageFlags.Ephemeral
+            });
+          } catch (err) {
+            console.error('❌ Gagal memberi role:', err);
+            return interaction.reply({
+              content: '❌ Gagal memberi role. Cek permission bot atau hubungi admin.',
+              flags: MessageFlags.Ephemeral
+            });
+          }
+        }
+
     } catch (err) {
       console.error('[\x1b[31mERROR\x1b[0m] Error di verifikasi.js:', err);
       if (!interaction.replied && !interaction.deferred) {
