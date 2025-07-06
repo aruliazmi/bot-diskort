@@ -15,14 +15,14 @@ module.exports = {
         return interaction.editReply({ content: '❌ Data kamu tidak ditemukan.' });
       }
 
-      const nama = data.username?.trim();
+      const nama = data.ucp?.trim();
       const telepon = data.phone?.trim();
 
       if (!nama || !telepon) {
         return interaction.editReply({ content: '❌ Nama atau telepon kamu belum lengkap.' });
       }
 
-      const otp = Math.floor(1000 + Math.random() * 9000).toString();
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
       const jid = `${telepon}@s.whatsapp.net`;
       const pesan = `Hai ${nama}, Kode OTP Reset Password kamu adalah *${otp}*. Jangan bagikan kode ini ke siapa pun!`;
 

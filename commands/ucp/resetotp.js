@@ -56,7 +56,7 @@ module.exports = {
 
         const match = await PlayerUCP.findOne({
           where: {
-            pin: otpInput,
+            verifycode: otpInput,
             DiscordID: interaction.user.id,
           }
         });
