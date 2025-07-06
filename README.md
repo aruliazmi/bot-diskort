@@ -72,16 +72,20 @@ RAID_NOTIFY_CHANNEL=
 
 # ======================================
 
+ALLOWED_ROLE_IDS=
+CHANNEL_SELF=
+CHANNEL_MENTION=
+
+# ======================================
+
 TOPUP_CHANNEL=
 REGIST_CHANNEL=
 REGISTER_LOG_CHANNEL=
 
 # ======================================
 
-TICKET_COMMAND_CHANNEL=
+TICKET_SUPPORT_CHANNEL=
 TICKET_ROLE_ID=
-TICKET_CATEGORY_ID=
-TICKET_ARCHIVE_CATEGORY_ID=
 TICKET_NOTIFY_CHANNEL=
 
 # ======================================
@@ -107,6 +111,8 @@ TRIPAY_PRIVATE_KEY=
 
 ANNOUNCE_CHANNEL_ID=
 UCP_ROLE_ID=
+
+# ======================================
 ```
 
 ### 4. Jalankan Bot
