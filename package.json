@@ -8,7 +8,7 @@
     "dev": "nodemon index.js"
   },
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.0",
+    "@whiskeysockets/baileys": "^6.5.0",
     "@hapi/boom": "^10.0.1",
     "qrcode-terminal": "^0.12.0",
     "extra": "^0.2.1",
@@ -26,7 +26,6 @@
     "qs": "^6.14.0",
     "sequelize": "^6.37.7",
     "samp-query": "^0.1.5",
-    "qrcode-terminal": "^0.12.0",
     "nodemon": "^3.1.10"
   }
 }
