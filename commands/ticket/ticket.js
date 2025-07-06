@@ -6,7 +6,7 @@ const {
   EmbedBuilder
 } = require('discord.js');
 
-const ALLOWED_CHANNEL_ID = process.env.TICKET_COMMAND_CHANNEL;
+const ALLOWED_CHANNEL_ID = process.env.TICKET_SUPPORT_CHANNEL;
 
 module.exports = {
   data: new SlashCommandBuilder()
