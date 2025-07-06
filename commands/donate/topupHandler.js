@@ -12,12 +12,12 @@ const axios = require('axios');
 const crypto = require('crypto');
 const mysql = require('mysql2/promise');
 const produkData = require('../../data/produk.json');
-const sendWaNotif = require('../../wa');
 
 const merchant_code = process.env.TRIPAY_MERCHANT_CODE;
 const api_key = process.env.TRIPAY_API_KEY;
 const private_key = process.env.TRIPAY_PRIVATE_KEY;
 const TOPUP_CHANNEL = process.env.TOPUP_CHANNEL;
+const UCP_DONATE_ROLE_ID = process.env.UCP_DONATE_ROLE_ID;
 
 module.exports = {
   async handleInteraction(interaction) {
@@ -144,8 +144,8 @@ module.exports = {
         const data = res.data?.data;
         if (data.status === 'PAID') {
           const selected = data.order_items[0].sku;
-            const produkKendaraan = require('../../data/produk.json').kategori_kendaraan.map(p => p.value);
-            const isKendaraan = produkKendaraan.includes(selected);
+          const produkKendaraan = require('../../data/produk.json').kategori_kendaraan.map(p => p.value);
+          const isKendaraan = produkKendaraan.includes(selected);
           const db = await mysql.createConnection({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
@@ -172,6 +172,14 @@ module.exports = {
             } else {
               await db.execute('UPDATE players SET skin = ? WHERE reg_id = ?', [parseInt(selected), reg_id]);
             }
+
+            // ✅ Berikan role donatur
+            const guild = interaction.guild;
+            const member = await guild.members.fetch(interaction.user.id).catch(() => null);
+            if (member && UCP_DONATE_ROLE_ID && guild.roles.cache.has(UCP_DONATE_ROLE_ID)) {
+              await member.roles.add(UCP_DONATE_ROLE_ID).catch(console.error);
+            }
+
             return interaction.update({
               content: `✅ Pembayaran berhasil! Produk diberikan ke karakter **${playerRows[0].username}**.`,
               components: [disabledRow],
@@ -185,6 +193,14 @@ module.exports = {
               .addOptions(playerRows.map(p => new StringSelectMenuOptionBuilder().setLabel(p.username).setValue(p.reg_id.toString())));
 
             const row = new ActionRowBuilder().addComponents(playerMenu);
+
+            // ✅ Berikan role donatur
+            const guild = interaction.guild;
+            const member = await guild.members.fetch(interaction.user.id).catch(() => null);
+            if (member && UCP_DONATE_ROLE_ID && guild.roles.cache.has(UCP_DONATE_ROLE_ID)) {
+              await member.roles.add(UCP_DONATE_ROLE_ID).catch(console.error);
+            }
+
             return interaction.update({
               content: '👤 Pilih karakter yang akan menerima produk:',
               components: [disabledRow, row],
@@ -229,6 +245,7 @@ module.exports = {
           .addOptions([new StringSelectMenuOptionBuilder().setLabel(`Karakter ID: ${reg_id}`).setValue(reg_id.toString())]);
 
         const disabledRow = new ActionRowBuilder().addComponents(disabledMenu);
+
         await interaction.update({
           content: `✅ Produk berhasil diberikan ke karakter ID: **${reg_id}**`,
           components: [disabledRow],

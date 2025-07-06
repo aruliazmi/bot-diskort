@@ -25,9 +25,9 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setAuthor({
         name: 'Araz BOT | Topup Produk',
-        iconURL: 'https://media.discordapp.net/attachments/1387382523918815263/1389936744824307853/pp-aesthetic-anime.jpg'
+        iconURL: interaction.client.user.displayAvatarURL()
       })
-      .setThumbnail('https://media.discordapp.net/attachments/1387382523918815263/1389936744824307853/pp-aesthetic-anime.jpg')
+      .setThumbnail(interaction.client.user.displayAvatarURL())
       .setColor('#00B0F4')
       .setDescription(
         "Kamu bisa membeli produk seperti kendaraan atau skin dengan pembayaran QRIS. Klik tombol di bawah untuk memulai." +

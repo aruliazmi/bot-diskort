@@ -11,6 +11,24 @@ const dataFile = path.join(__dirname, 'status_message.json');
 let serverOnlineTime = new Date();
 let messageEmbed;
 
+function getFormattedWIBTime(date) {
+  const tanggal = date.toLocaleDateString('id-ID', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'Asia/Jakarta'
+  });
+
+  const jam = date.toLocaleTimeString('id-ID', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'Asia/Jakarta'
+  });
+
+  return `${tanggal} ${jam} WIB`;
+}
+
 function formatUptime(startTime) {
   const now = new Date();
   const uptimeMs = now - startTime;
@@ -44,33 +62,40 @@ function startStatusUpdater(client, channelId) {
 
   setInterval(() => {
     const samp = { host: server_ip, port: server_port };
+    const startPing = Date.now();
 
     query(samp, async (error, response) => {
+      const endPing = Date.now();
+      const pingMs = endPing - startPing;
+
       let uptimeString = "N/A";
       if (!error) uptimeString = formatUptime(serverOnlineTime);
 
       const embed = new EmbedBuilder()
         .setTitle('Araz BOT - Server Status')
         .setColor('#00cba9')
-        .setThumbnail('https://media.discordapp.net/attachments/1387382523918815263/1389936744824307853/pp-aesthetic-anime.jpg')
+        .setThumbnail(client.user.displayAvatarURL())
         .addFields(
           { name: 'Status', value: error ? '`🔴 Offline`' : '`🟢 Online`', inline: true },
           { name: 'Players', value: error ? '`N/A`' : `\`${response.online}/${response.maxplayers}\``, inline: true },
-          { name: 'Ping', value: '`1ms`', inline: true },
-          { name: 'Version', value: '`0.3.7 R3`', inline: true },
-          { name: 'Next Restart', value: '`20:00 WIB`', inline: true },
+          { name: 'Ping', value: error ? '`N/A`' : `\`${pingMs}ms\``, inline: true },
+          { name: 'Version', value: error ? '`N/A`' : `\`${response.rules?.version || 'Unknown'}\``, inline: true },
+          { name: 'Last Restart', value: `\`${getFormattedWIBTime(serverOnlineTime)}\``, inline: true },
           { name: 'Uptime', value: `\`${uptimeString}\``, inline: true },
           { name: 'Connect', value: `\`${server_ip}:${server_port}\`` }
         )
         .setTimestamp()
         .setFooter({
           text: '© 2025 ArazHQ - All rights reserved.',
-          iconURL: 'https://media.discordapp.net/attachments/1387382523918815263/1389936744824307853/pp-aesthetic-anime.jpg'
+          iconURL: client.user.displayAvatarURL()
         });
 
       if (!messageEmbed) {
         try {
-          const msg = await channel.send({ embeds: [embed] });
+          const msg = await channel.send({
+            content: '@everyone',
+            embeds: [embed]
+          });
           messageEmbed = msg;
           fs.writeFileSync(dataFile, JSON.stringify({ messageId: msg.id }));
         } catch (e) {

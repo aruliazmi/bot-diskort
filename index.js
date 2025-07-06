@@ -64,7 +64,7 @@ client.on('interactionCreate', async interaction => {
 
 client.once('ready', async () => {
   console.log(`[\x1b[36mONLINE\x1b[0m] Bot ready as ${client.user.tag}`)
-
+  require('./deploy-commands');
   global.discordClient = client;
 
   try {

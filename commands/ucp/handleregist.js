@@ -37,9 +37,9 @@ module.exports = {
     const msgEmbed = new EmbedBuilder()
       .setAuthor({
         name: 'Araz BOT | User Control Panel',
-        iconURL: 'https://media.discordapp.net/attachments/1387382523918815263/1389936744824307853/pp-aesthetic-anime.jpg'
+        iconURL: interaction.client.user.displayAvatarURL()
       })
-      .setThumbnail('https://media.discordapp.net/attachments/1387382523918815263/1389936744824307853/pp-aesthetic-anime.jpg')
+      .setThumbnail(interaction.client.user.displayAvatarURL())
       .setColor('#FF0000')
       .setDescription(
         "Channel ini merupakan tempat di mana kamu dapat mengatur akun UCP kamu sendiri. Berikut ini adalah fungsi dari setiap tombol yang tersedia:\n\n" +
